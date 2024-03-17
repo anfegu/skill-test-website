@@ -45,15 +45,15 @@ wc:e0d3bcf6-6727-4103-89a2-2d1ba7cd727b@1?bridge=https%3A%2F%2F3.bridge.walletco
 
 > [!NOTE]
 > GENERAL: Remember to execute the updated scripts (`new_mgldefi.sql`) from the database to simulate the changes. Using the root user in MySQL is discouraged due to security risks. It's best practice to create separate users with specific permissions for each database task. This adheres to the principle of least privilege, enhances security, facilitates auditing, isolates system components, and simplifies scalability and maintenance. Storing credentials securely in a .env file adds an extra layer of protection against unauthorized access. For the operational convenience of the application, I've decided to retain the .env file within the project. it's important to upholding robust security practices, including the creation of distinct MySQL users with limited privileges:
+> 
+```
 -- Create a new user
 CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
-
 -- Grant permissions to the user on a specific database
 GRANT SELECT, INSERT, UPDATE, DELETE ON mydatabase.* TO 'myuser'@'localhost';
-
 -- Flush privileges to apply changes
 FLUSH PRIVILEGES;
+```
 
-> 
 [Screencast from 2024-03-17 02-19-26.webm](https://github.com/anfegu/skill-test-website/assets/7240030/fbba236e-c5e9-4f8c-8654-623a6a002848)
 
