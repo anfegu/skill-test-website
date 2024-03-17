@@ -24,7 +24,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBZMmYAXfwIgeij2zd2dOzMsdBKWLG3-ME",
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "mgldefigo.firebaseapp.com",
   projectId: "mgldefigo",
   storageBucket: "mgldefigo.appspot.com",

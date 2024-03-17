@@ -139,7 +139,10 @@ export async function getTokenPriceInUsd(network, tokenAddr) {
         ]
         let web3 = new Web3(getRpcUrl(network.url))
         const routerContract = new web3.eth.Contract(ROUTER_ABI, network.routerAddr);
-        let res = await routerContract.methods.getAmountsOut('1000000000000000000', [network.baseTokenAddr, network.usdAddr]).call()
+        let res = await routerContract.methods.getAmountsOut('1000000000000000000', [network.baseTokenAddr, network.usdAddr]).call();
+        if (network.url === "ethereum-mainnet" ){
+            return Number(res[1]) / Math.pow(10, 6); 
+        }
         const basePrice = Number(res[1]) / Math.pow(10, network.usdDecimal); 
         if (tokenAddr === "0x0000000000000000000000000000000000001010") {
             return basePrice
@@ -176,6 +179,8 @@ function getRpcUrl(network) {
             return 'https://bsc-dataseed1.binance.org';
         }else if(network === "bsc-testnet") {
             return 'https://data-seed-prebsc-1-s1.binance.org:8545';
+        } else if(network === "ethereum-mainnet") {
+            return 'https://eth-mainnet.public.blastapi.io';
         }
         else return false;
 }

@@ -21,6 +21,8 @@ import openNotification from "../helpers/notification";
 import WalletLoadingModal from "../component/WalletComponents/WalletLoadingModal";
 import {SERVER_URL, networks} from "../../constants/env";
 import {getTokenBaseInfo, getTokenBalance, getTokenPriceInUsd} from "../../utils/tokenUtils";
+import WalletConnectClient from '@walletconnect/client';
+import QRCodeModal from "@walletconnect/qrcode-modal";
 
 const { Paragraph } = Typography;
 const initTokenList=[
@@ -30,7 +32,7 @@ function Wallet() {
   const [t,i18n] = useTranslation();
   const [idx,setIdx]=useState(0);
   const [tokens,setTokens]=useState([]);
-  const [network, setNetwork] = useState(networks[2]);
+  const [network, setNetwork] = useState(networks[3]);
   const [tokensInfo, setTokensInfo] = useState([]);
   const [loading,setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -188,6 +190,44 @@ function Wallet() {
       setStopMode(false);
   },[tokensInfo])
 
+  const handleConnectWallet = async () => {
+    try {
+        const client = new WalletConnectClient({
+          bridge: "https://bridge.walletconnect.org",
+          qrcodeModal: QRCodeModal,
+        }); // Create a new client instance
+
+        // Set the state or dispatch an action to update the UI (optional)
+        if (!client.connected) {
+          // Create a dialogue
+          client.createSession();
+        }
+        client.on('connect', (error, payload) => {
+            if (error) {
+                console.error('Connection error:', error);
+                // Handle connection error gracefully (display error message, etc.)
+            } else {
+                console.log('Connected:', payload);
+                // Store the connected client object for future interactions
+                // (e.g., call methods for signing transactions, sending messages)
+            }
+        });
+
+        client.on('session_update', (payload) => {
+            console.log('Session updated:', payload);
+            // Handle session updates (e.g., session expiry, reconnection)
+        });
+
+        client.on('disconnect', (error) => {
+            console.log('Disconnected:', error);
+            // Handle disconnection (e.g., clear stored data, update UI)
+        });
+
+    } catch (error) {
+        console.error('WalletConnect error:', error);
+        // Handle initialization or session creation errors
+    }
+  };
 
 
   return (
@@ -235,10 +275,11 @@ function Wallet() {
                     </Col>
                     <Col span={14}>
                       <Paragraph copyable className="myColor1 font-bold ">{publicKey}</Paragraph>
+                      <button className="myButton myBule text-white px-5 text-sm" onClick={handleConnectWallet}>Connect with WalletConnect</button>
                     </Col>
                   </Row>
-
                 </Col>
+                
               </Row>
               <Row className="bg-white border-l-8 border-gray-200 border-t-8 flex-grow ">
                 {
@@ -336,6 +377,8 @@ function Wallet() {
         {/*<p className="text-gray-400 mt-4 border-b-2 border-gray-200">Testnet(Polygon)</p>*/}
         <a onClick={()=>{changeNetwork(networks[2])}}><p className="mt-4 border-b-2 border-gray-200">Mainnet(BSC)</p></a>
         {/* <a onClick={()=>{changeNetwork(networks[3])}}><p className="mt-4 border-b-2 border-gray-200">Testnet(BSC)</p></a> */}
+        <a onClick={()=>{changeNetwork(networks[3])}}><p className="mt-4 border-b-2 border-gray-200">Mainnet (Ethereum)</p></a>
+        
       </Drawer>
       </>
   );

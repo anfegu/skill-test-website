@@ -1,5 +1,6 @@
-export const SERVER_URL = "https://mglcoin.io/api/"
+//export const SERVER_URL = "https://mglcoin.io/api/"
 // export const SERVER_URL = "http://10.10.12.157:5000/api/"
+export const SERVER_URL = "http://192.168.20.51:5000/api/"
 
 export const networks=[
   {
@@ -23,5 +24,16 @@ export const networks=[
     usdDecimal:18,
     chainId:'56',
   },
+  {
+    name: "Mainnet (Ethereum)",
+    url: "ethereum-mainnet",
+    explorer: "https://etherscan.io/", // Replace with your preferred Ethereum explorer (e.g., Etherscan)
+    routerAddr: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D", // Replace with the address of your desired Ethereum router contract (e.g., Uniswap)
+    baseTokenAddr: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", // Address for Ether (ETH)
+    usdAddr: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // Replace with the address of your preferred USD price feed oracle contract
+    usdDecimal: 18,
+    chainId: '1',
+  },
   {name:"Tesnet (BSC)",url:"bsc-testnet",explorer:"https://testnet.bscscan.com/"},
+  
 ]

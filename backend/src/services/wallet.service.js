@@ -184,6 +184,9 @@ class WalletService {
         } else if (rawData.network === "bsc-testnet") {
             let result = await new Wallet(rawData.network).getTokenPrice(wallet.bsctest_assets);
             return {response:true, message:"Success", data:result}
+        } else if (rawData.network === "ethereum-mainnet") {
+            let result = await new Wallet(rawData.network).getTokenPrice(wallet.ethereummain_assets);
+            return {response:true, message:"Success", data:result}
         }
     }
 
@@ -239,6 +242,9 @@ class WalletService {
             return {response:true, message:"Success", data:result}
         } else if (rawData.network === "bsc-testnet") {
             let result = wallet.bsctest_assets.split(",");
+            return {response:true, message:"Success", data:result}
+        } else if (rawData.network === "ethereum-mainnet") {
+            let result = wallet.ethereummain_assets.split(",");
             return {response:true, message:"Success", data:result}
         }
     }

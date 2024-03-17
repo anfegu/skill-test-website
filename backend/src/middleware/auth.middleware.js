@@ -14,7 +14,7 @@ const auth = (...roles) => {
                 res.send({response:false, message:'Access denied. No credentials sent!', data:null})
             }
 
-            const token = authHeader.replace(bearer, '');
+            const token = authHeader?.replace(bearer, '');
             const secretKey = process.env.SECRET_JWT || "";
 
             // Verify Token
